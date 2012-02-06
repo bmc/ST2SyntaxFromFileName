@@ -1,4 +1,4 @@
-import sublime, sublime_plugin
+import sublime, sublime_plugin # -*- python -*-
 import re
 import os
 import json
@@ -76,10 +76,19 @@ class SyntaxFromFile(sublime_plugin.EventListener):
 
         if syntax is not None:
             if view.settings().get('syntax') != syntax:
-                self._message(
-                    'Syntax "%s" for %s' % (syntax, os.path.basename(filename))
-                )
-                view.set_syntax_file(syntax)
+                # Honor 'sticky-syntax'. The EmacsLikeSyntaxSetter plugin
+                # (mine) uses this setting to indicate a buffer-specific syntax
+                # override. That override should have higher priority than this
+                # value.
+                name = view.name()
+                if name is None:
+                    name = os.path.basename(view.file_name())
+
+                if view.settings().get('sticky-syntax', False):
+                    self._message('Syntax for %s is sticky.' % name)
+                else:
+                    self._message('Syntax "%s" for %s' % (syntax, name))
+                    view.set_syntax_file(syntax)
 
     def _load_syntaxes(self):
         syntaxes = {}
