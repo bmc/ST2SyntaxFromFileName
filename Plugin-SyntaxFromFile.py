@@ -1,4 +1,4 @@
-import sublime, sublime_plugin # -*- python -*-
+import sublime, sublime_plugin
 import re
 import os
 import json
@@ -6,28 +6,14 @@ import json
 PREF_FILE_NAME = 'SyntaxFromFile.sublime-settings'
 PACKAGE_NAME   = 'SyntaxFromFile'
 
-class SettingFileInfo(object):
-    def __init__(self, path):
-        self.path = path
-        self._mtime = self._get_mtime(path)
-
-    def changed(self):
-        new_mtime = self._get_mtime(self.path)
-        return new_mtime != self._mtime
-
-    def _get_mtime(self, path):
-        return os.stat(path).st_mtime if os.path.exists(path) else 0
-
 class SyntaxFromFile(sublime_plugin.EventListener):
     '''
     SyntaxFromFile sets a buffer's syntax from its file name, based on
-    configured set of regular expressions.
+    configured set of regular expressions. See
+    http://software.clapper.org/ST2SyntaxFromFile/ for details.
     '''
     def __init__(self):
         self._syntaxes = self._load_syntaxes()
-
-        # Load the preferences files into an array of [regex, syntaxname] pairs.
-        self.reload_settings()
 
     def on_load(self, view):
         '''
@@ -39,24 +25,7 @@ class SyntaxFromFile(sublime_plugin.EventListener):
         '''
         Called right after a save. Check the syntax then, in case it changed.
         '''
-        filename = view.file_name()
-        if filename is not None:
-            if os.path.basename(filename) == PREF_FILE_NAME:
-                # A preference file changed. Recheck.
-                self._recheck_settings()
-
         self._check_syntax(view)
-
-    def reload_settings(self):
-        self._settings, self._settings_files = self._load_settings(self._syntaxes)
-
-    def _recheck_settings(self):
-        for i in range(0, len(self._settings_files)):
-            fi = self._settings_files[i]
-            if fi.changed():
-                self._message("%s changed. Reloading settings." % fi.path)
-                self.reload_settings()
-                break
 
     def _check_syntax(self, view):
         '''
@@ -65,30 +34,58 @@ class SyntaxFromFile(sublime_plugin.EventListener):
         '''
         filename = view.file_name()
         syntax = None
-        if filename is not None:
-            # Scan the settings for a match. First one wins. The settings
-            # are [regex, syntax] tuples.
-            for i in range(0, len(self._settings)):
-                setting = self._settings[i]
-                if setting[0].search(filename):
-                    syntax = setting[1]
-                    break
+        settings = view.settings().get('filename_syntax_settings', None)
+        if (filename is None) or (settings is None):
+            return
 
-        if syntax is not None:
-            if view.settings().get('syntax') != syntax:
-                # Honor 'sticky-syntax'. The EmacsLikeSyntaxSetter plugin
-                # (mine) uses this setting to indicate a buffer-specific syntax
-                # override. That override should have higher priority than this
-                # value.
-                name = view.name()
-                if name is None:
-                    name = os.path.basename(view.file_name())
+        for i in range(0, len(settings)):
+            setting = settings[i]
+            s_setting = ', '.join(setting)
+            if not len(setting) in [2, 3]:
+                self._error("Wrong field count in: [%s]" % s_setting)
+                continue
 
-                if view.settings().get('sticky-syntax', False):
-                    self._message('Syntax for %s is sticky.' % name)
-                else:
-                    self._message('Syntax "%s" for %s' % (syntax, name))
-                    view.set_syntax_file(syntax)
+            pattern = setting[0]
+            syntax_name = setting[1].strip().lower()
+
+            error = False
+
+            syntax_file = self._syntaxes.get(syntax_name)
+            if syntax_file is None:
+                self._error(
+                    "Unknown syntax '%s' in [%s]" % (syntax_name, s_setting)
+                )
+                error = True
+
+            opts = 0
+            if len(setting) == 3:
+                if setting[2].find('i') != -1:
+                    opts |= re.IGNORECASE
+
+            try:
+                regex = re.compile(pattern, opts)
+                if regex.search(filename):
+                    syntax = syntax_file
+                    if view.settings().get('syntax') != syntax:
+                        # Honor 'sticky-syntax'. The EmacsLikeSyntaxSetter
+                        # plugin (mine) uses this setting to indicate a buffer-
+                        # specific syntax override. That override should have
+                        # higher priority than this value.
+                        name = view.name()
+                        if name is None or name.strip() == '':
+                            name = os.path.basename(view.file_name())
+                        if view.settings().get('sticky-syntax', False):
+                            self._message('Syntax for %s is sticky.' % name)
+                        else:
+                            self._message('Syntax "%s" for %s' % (syntax, name))
+                            view.set_syntax_file(syntax)
+                            view.settings().set('sticky-syntax', False)
+
+            except Exception as ex:
+                self.error(
+                    "Bad file pattern '%s' in [%s]" % (syntax_name, s_setting)
+                )
+                error = True
 
     def _load_syntaxes(self):
         syntaxes = {}
@@ -124,72 +121,6 @@ class SyntaxFromFile(sublime_plugin.EventListener):
                 syntaxes[short_syntax_name.lower()] = sublime_syntax_name
 
         return syntaxes
-
-    def _load_settings(self, syntaxes):
-        package_path = sublime.packages_path()
-        settings = []
-        files = []
-        for subdir in ['User', PACKAGE_NAME]:
-            f = os.path.join(package_path, subdir, PREF_FILE_NAME)
-            files.append(SettingFileInfo(f))
-            if os.path.exists(f):
-                try:
-                    lines = [i for i in open(f).readlines()
-                               if not i.strip().startswith("//")]
-                    raw_settings = json.loads(''.join(lines))
-                    settings.append(
-                        self._process_settings(raw_settings, syntaxes)
-                    )
-                except Exception as ex:
-                    self._error("Failed to load %s: %s" % (f, ex))
-
-        # Flatten the result.
-        return ([i for sublist in settings for i in sublist], files)
-
-    def _process_settings(self, settings, syntaxes):
-        # The JSON file is a series of arrays. Each array has 2 or 3 elements,
-        # consisting of:
-        #
-        # 1 - a regular expression pattern to match the file name
-        # 2 - a short syntax name
-        # 3 - optional regex flags. Supported: 'i'
-        result = []
-        for i in range(0, len(settings)):
-            setting = settings[i]
-            s_setting = ', '.join(setting)
-            if not len(setting) in [2, 3]:
-                self._error("Wrong field count in: [%s]" % s_setting)
-                continue
-
-            pattern = setting[0]
-            syntax_name = setting[1].strip().lower()
-
-            error = False
-
-            syntax_file = syntaxes.get(syntax_name)
-            if syntax_file is None:
-                self._error(
-                    "Unknown syntax '%s' in [%s]" % (syntax_name, s_setting)
-                )
-                error = True
-
-            opts = 0
-            if len(setting) == 3:
-                if setting[2].find('i') != -1:
-                    opts |= re.IGNORECASE
-
-            try:
-                regex = re.compile(pattern, opts)
-            except Exception as ex:
-                self.error(
-                    "Bad file pattern '%s' in [%s]" % (syntax_name, s_setting)
-                )
-                error = True
-
-            if not error:
-                result.append([regex, syntax_file])
-
-        return result
 
     def _error(self, msg):
         self._message("(ERROR) %s" % msg)
