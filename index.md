@@ -59,7 +59,7 @@ To upgrade, just do a `git pull` within that directory.
 
 ## Plugin Documentation
 
-The plugin is configured the "filename_syntax_settings" value in your user
+The plugin is configured via the `filename_syntax_settings` value in your user
 settings. That value is an array of arrays, with each inner array element
 defining a mapping from a regular expression to a syntax name. For instance,
 here's a portion of my settings file:
