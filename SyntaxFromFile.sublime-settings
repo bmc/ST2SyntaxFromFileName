@@ -1,3 +1,7 @@
+// This file contains preference settings for the SyntaxFromFile plugin.
+// It consists of an array of 2- or 3-tuples, each of which defines a
+// regexp-to-syntax mapping. See http://software.clapper.org/ST2SyntaxFromFile/
+// for complete details.
 [
   ["\\.scss$", "Ruby Sass", "i"],
   ["\\.sass$", "Ruby Sass", "i"]
