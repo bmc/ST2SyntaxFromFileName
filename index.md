@@ -5,13 +5,13 @@ layout: withTOC
 
 ## Introduction
 
-The [ST2SyntaxFromFile][] plugin provides a means to map a Sublime Text 2
+The [ST2SyntaxFromFileName][] plugin provides a means to map a Sublime Text 2
 buffer to a syntax (for highlighting, completion and snippets), by matching
 against the buffer's file name.
 
 [GNU Emacs]: http://www.gnu.org/s/emacs/
 [Sublime Text 2]: http://www.sublimetext.com/2
-[ST2SyntaxFromFile]: https://github.com/bmc/ST2SyntaxFromFile
+[ST2SyntaxFromFileName]: https://github.com/bmc/ST2SyntaxFromFileName
 
 ## Warning
 
@@ -45,14 +45,14 @@ Go to your Sublime Text 2 `Packages` directory and clone the repository.
 For instance, on Linux:
 
     $ cd ~/.config/sublime-text-2/Packages
-    $ git clone https://github.com/bmc/ST2SyntaxFromFile SyntaxFromFile
+    $ git clone https://github.com/bmc/ST2SyntaxFromFileName SyntaxFromFileName
 
 On Mac OS X:
 
     $ cd "$HOME/Library/Application Support/Sublime Text 2/Packages"
-    $ git clone https://github.com/bmc/ST2SyntaxFromFile SyntaxFromFile
+    $ git clone https://github.com/bmc/ST2SyntaxFromFile SyntaxFromFileName
 
-The subdirectory name _must_ be called `SyntaxFromFile`.
+The subdirectory name _must_ be called `SyntaxFromFileName`.
 
 To upgrade, just do a `git pull` within that directory.
 
