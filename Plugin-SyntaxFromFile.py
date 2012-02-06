@@ -76,6 +76,9 @@ class SyntaxFromFile(sublime_plugin.EventListener):
 
         if syntax is not None:
             if view.settings().get('syntax') != syntax:
+                self._message(
+                    "Syntax %s for %s" % (syntax, os.path.basename(filename))
+                )
                 view.set_syntax_file(syntax)
 
     def _load_syntaxes(self):
