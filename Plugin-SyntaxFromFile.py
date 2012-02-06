@@ -125,8 +125,8 @@ class SyntaxFromFile(sublime_plugin.EventListener):
             files.append(SettingFileInfo(f))
             if os.path.exists(f):
                 try:
-                    settings.append(
-                        self._process_settings(json.load(open(f)), syntaxes)
+                    lines = [i for i in json.load(open(f)) if not i.strip().startswith("//")]
+                    settings.append(self._process_settings(''.join(lines))
                     )
                 except Exception as ex:
                     self._error("Failed to load %s: %s" % (f, ex))
