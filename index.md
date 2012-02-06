@@ -104,6 +104,16 @@ If the plugin fails to honor your syntax setting, see the Python console
 
 [Emacs-like Syntax Setter]: http://software.clapper.org/ST2EmacsMiscellanea
 
+# Alternatives
+
+Phillip Koebbe's [DetectSyntax][] plugin can also set the syntax based on the
+file name. Further, since DetectSyntax is, basically, a small rules engine, it
+can be used to set the syntax on more complex conditions, such as the contents
+of the file's first line.
+
+I wanted something simpler to configure, which is why I wrote this plugin.
+However, by all means, take a look at DetectSyntax. It's good work.
+
 ## Author
 
 Brian M. Clapper, [bmc@clapper.org][]
@@ -128,3 +138,4 @@ request. Along with any patch you send:
 [GitHub]: http://github.com/bmc/
 [downloads area]: http://github.com/bmc/sublime-text-hacks/downloads
 [bmc@clapper.org]: mailto:bmc@clapper.org
+[DetectSyntax]: https://github.com/phillipkoebbe/DetectSyntax
