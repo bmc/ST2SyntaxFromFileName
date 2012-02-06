@@ -1,5 +1,5 @@
 ---
-title: Sublime Text 2 Syntax From File Plugin
+title: Sublime Text 2 Syntax From File Name Plugin
 layout: withTOC
 ---
 
@@ -50,7 +50,7 @@ For instance, on Linux:
 On Mac OS X:
 
     $ cd "$HOME/Library/Application Support/Sublime Text 2/Packages"
-    $ git clone https://github.com/bmc/ST2SyntaxFromFile
+    $ git clone https://github.com/bmc/ST2SyntaxFromFileName
 
 To upgrade, just do a `git pull` within that directory.
 
