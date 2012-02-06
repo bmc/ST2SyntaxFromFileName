@@ -45,14 +45,12 @@ Go to your Sublime Text 2 `Packages` directory and clone the repository.
 For instance, on Linux:
 
     $ cd ~/.config/sublime-text-2/Packages
-    $ git clone https://github.com/bmc/ST2SyntaxFromFileName SyntaxFromFileName
+    $ git clone https://github.com/bmc/ST2SyntaxFromFileName
 
 On Mac OS X:
 
     $ cd "$HOME/Library/Application Support/Sublime Text 2/Packages"
-    $ git clone https://github.com/bmc/ST2SyntaxFromFile SyntaxFromFileName
-
-The subdirectory name _must_ be called `SyntaxFromFileName`.
+    $ git clone https://github.com/bmc/ST2SyntaxFromFile
 
 To upgrade, just do a `git pull` within that directory.
 
