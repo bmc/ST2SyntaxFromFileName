@@ -39,13 +39,13 @@ class SyntaxFromFile(sublime_plugin.EventListener):
         '''
         Called right after a save. Check the syntax then, in case it changed.
         '''
-        self._check_syntax(view)
-
         filename = view.file_name()
         if filename is not None:
             if os.path.basename(filename) == PREF_FILE_NAME:
                 # A preference file changed. Recheck.
                 self._recheck_settings()
+
+        self._check_syntax(view)
 
     def reload_settings(self):
         self._settings, self._settings_files = self._load_settings(self._syntaxes)
@@ -77,7 +77,7 @@ class SyntaxFromFile(sublime_plugin.EventListener):
         if syntax is not None:
             if view.settings().get('syntax') != syntax:
                 self._message(
-                    "Syntax %s for %s" % (syntax, os.path.basename(filename))
+                    'Syntax "%s" for %s' % (syntax, os.path.basename(filename))
                 )
                 view.set_syntax_file(syntax)
 
@@ -125,10 +125,12 @@ class SyntaxFromFile(sublime_plugin.EventListener):
             files.append(SettingFileInfo(f))
             if os.path.exists(f):
                 try:
-                    lines = [i for i in open(f).readlines
+                    lines = [i for i in open(f).readlines()
                                if not i.strip().startswith("//")]
-                    settings = json.load(''.join(lines))
-                    settings.append(self._process_settings(settings))
+                    raw_settings = json.loads(''.join(lines))
+                    settings.append(
+                        self._process_settings(raw_settings, syntaxes)
+                    )
                 except Exception as ex:
                     self._error("Failed to load %s: %s" % (f, ex))
 
