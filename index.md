@@ -28,8 +28,11 @@ If you're using Will Bond's [Package Control][] (and you should be),
 installation is straightfoward.
 
 Pull up the *Preferences > Package Control* menu, select *Package Control:
-Install Package*, and search for "Syntax From File".  Install the package from
+Install Package*, and search for "SyntaxFromFileName".  Install the package from
 there, and Package Control takes care of the rest.
+
+**NOTE** The plugin has been submitted to Package Control. This approach
+will work once the plugin has been accepted.
 
 #### Upgrading
 
