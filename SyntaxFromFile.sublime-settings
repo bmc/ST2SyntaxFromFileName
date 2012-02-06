@@ -1,3 +1,4 @@
 [
-  ["\\.scss$", "Ruby Sass", "i"]
+  ["\\.scss$", "Ruby Sass", "i"],
+  ["\\.sass$", "Ruby Sass", "i"]
 ]

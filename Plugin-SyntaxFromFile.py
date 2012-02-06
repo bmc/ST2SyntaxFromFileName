@@ -13,7 +13,6 @@ class SettingFileInfo(object):
 
     def changed(self):
         new_mtime = self._get_mtime(self.path)
-        print("path %s: old_mtime=%f, new_mtime=%f" % (self.path, self._mtime, new_mtime))
         return new_mtime != self._mtime
 
     def _get_mtime(self, path):
@@ -41,7 +40,12 @@ class SyntaxFromFile(sublime_plugin.EventListener):
         Called right after a save. Check the syntax then, in case it changed.
         '''
         self._check_syntax(view)
-        self._recheck_settings()
+
+        filename = view.file_name()
+        if filename is not None:
+            if os.path.basename(filename) == PREF_FILE_NAME:
+                # A preference file changed. Recheck.
+                self._recheck_settings()
 
     def reload_settings(self):
         self._settings, self._settings_files = self._load_settings(self._syntaxes)
