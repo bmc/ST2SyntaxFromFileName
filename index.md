@@ -5,7 +5,7 @@ layout: withTOC
 
 ## Introduction
 
-The [ST2SyntaxFromFileName][] plugin provides a means to map a Sublime Text 2
+The [ST2SyntaxFromFileName][] plugin provides a means to map a [Sublime Text 2][]
 buffer to a syntax (for highlighting, completion and snippets), by matching
 against the buffer's file name.
 
