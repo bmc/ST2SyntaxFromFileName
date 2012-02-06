@@ -15,7 +15,8 @@ against the buffer's file name.
 
 ## Warning
 
-I use these files myself, but *caveat user*. If you use them, and they screw you all to hell, it's not my fault.
+I use this plug-in myself, but *caveat user*. If you use it, and they screw
+you all to hell, it's not my fault.
 
 ## Installation
 
@@ -76,15 +77,16 @@ value.
 
 Each entry has two or two fields. The first two are mandatory. They are:
 
-* (1) A regular expression pattern against which to match the filename.
-  Note that backslashes must be double-escaped, because of the way the JSON
-  parser works. **REQUIRED**
-* (2) The syntax value to apply to matching files. The name must match the name
-  of a `.tmLanguage` file somewhere underneath your Sublime Text 2 `Packages`
-  directory. The name is matched in a case-blind manner; thus, "Scala" and
-  "scala" mean the same thing. **REQUIRED**
-* (3) Optional flags for the regular expression parser. Currently, only "i",
-  for case-blind comparison, is honored. Anything else is ignored. **OPTIONAL**
+1. A regular expression pattern against which to match the filename.
+   Note that backslashes must be double-escaped, because of the way the JSON
+   parser works. **REQUIRED**
+2. The syntax value to apply to matching files. The name must match the name
+   of a `.tmLanguage` file somewhere underneath your Sublime Text 2 `Packages`
+   directory. The name is matched in a case-blind manner; thus, "Scala" and
+   "scala" mean the same thing. **REQUIRED**
+3. Optional flags for the regular expression parser. Currently, only "i",
+   for case-blind comparison, is honored. Anything else is ignored.
+   **OPTIONAL**
 
 The settings examined applied _in order_, and the first match wins.
 
