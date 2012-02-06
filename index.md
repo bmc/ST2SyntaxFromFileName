@@ -76,7 +76,7 @@ a syntax name. For instance, here's a portion of my settings file:
 That setting maps files ending in ".scss" and ".sass" to the "Ruby Sass" syntax
 value.
 
-Each entry has two or two fields. The first two are mandatory. They are:
+Each entry has two or three fields. The first two are mandatory. They are:
 
 1. A regular expression pattern against which to match the filename.
    Note that backslashes must be double-escaped, because of the way the JSON
