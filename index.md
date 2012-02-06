@@ -20,7 +20,7 @@ you all to hell, it's not my fault.
 
 ## Installation
 
-There are several ways to install these plugins.
+There are several ways to install the plugin.
 
 ### Via Package Control
 
@@ -96,8 +96,8 @@ If the plugin fails to honor your syntax setting, see the Python console
 
 **Notes**
 
-1. This plugin isn't a command; it's an event listener. Installing these
-   plugins automatically enables the Syntax Setter capability.
+1. This plugin isn't a command; it's an event listener. Installing the
+   plugin automatically enables it.
 2. This plugin's syntax settings will override any settings created by
    Sublime Text 2. However, it will _not_ override any buffer-specific syntax 
    value set by my [Emacs-like Syntax Setter][] plugin.
