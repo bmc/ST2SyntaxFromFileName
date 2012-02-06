@@ -28,8 +28,8 @@ If you're using Will Bond's [Package Control][] (and you should be),
 installation is straightfoward.
 
 Pull up the *Preferences > Package Control* menu, select *Package Control:
-Install Package*, and search for "SyntaxFromFileName".  Install the package from
-there, and Package Control takes care of the rest.
+Install Package*, and search for "SyntaxFromFileName".  Install the package
+from there, and Package Control takes care of the rest.
 
 **NOTE** The plugin has been submitted to Package Control. This approach
 will work once the plugin has been accepted.
@@ -60,10 +60,10 @@ To upgrade, just do a `git pull` within that directory.
 ## Plugin Documentation
 
 The plugin is configured via the `filename_syntax_settings` value in your user
-settings. That value is an array of arrays, with each inner array element
-defining a mapping from a regular expression to a syntax name. For instance,
-here's a portion of my settings file:
-
+settings. (You can get to your user settings via the
+"Preferences &#8592; Settings - User" menu.) That value is an array of arrays,
+with each inner array element defining a mapping from a regular expression to
+a syntax name. For instance, here's a portion of my settings file:
 
     {
 
