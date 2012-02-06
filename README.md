@@ -7,5 +7,5 @@ matched against the buffer's file name.
 You'll find complete documentation, including installation instructions,
 on the [home page][].
 
-[home page]: http://software.clapper.org/ST2SyntaxFromFile/
+[home page]: http://software.clapper.org/ST2SyntaxFromFileName/
 [Sublime Text 2]: http://www.sublimetext.com/2

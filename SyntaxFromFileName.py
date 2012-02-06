@@ -3,14 +3,11 @@ import re
 import os
 import json
 
-PREF_FILE_NAME = 'SyntaxFromFile.sublime-settings'
-PACKAGE_NAME   = 'SyntaxFromFile'
-
-class SyntaxFromFile(sublime_plugin.EventListener):
+class SyntaxFromFileName(sublime_plugin.EventListener):
     '''
-    SyntaxFromFile sets a buffer's syntax from its file name, based on
+    SyntaxFromFileFile sets a buffer's syntax from its file name, based on
     configured set of regular expressions. See
-    http://software.clapper.org/ST2SyntaxFromFile/ for details.
+    http://software.clapper.org/ST2SyntaxFromFileName/ for details.
     '''
     def __init__(self):
         self._syntaxes = self._load_syntaxes()
@@ -126,4 +123,4 @@ class SyntaxFromFile(sublime_plugin.EventListener):
         self._message("(ERROR) %s" % msg)
 
     def _message(self, msg):
-        print("SyntaxFromFile: %s" % msg)
+        print("SyntaxFromFileName: %s" % msg)

@@ -1,7 +1,7 @@
 {
-    "name"   : "SyntaxFromFile",
+    "name"   : "SyntaxFromFileName",
     "version": "0.1",
-    "url"    : "http://software.clapper.org/ST2SyntaxFromFile/",
+    "url"    : "http://software.clapper.org/ST2SyntaxFromFileName/",
     "author" : "Brian M. Clapper",
     "email"  : "bmc@clapper.org"
 }
